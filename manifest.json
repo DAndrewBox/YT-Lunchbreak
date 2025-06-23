@@ -1,0 +1,57 @@
+{
+	"manifest_version": 3,
+	"name": "YT-Lunchbreak",
+	"description": "Filter your YouTube feed to find the perfect video for your lunch break.",
+	"version": "1.0.0",
+	"action": {
+		"default_icon": "src/assets/logo-disabled-128.png",
+		"default_popup": "index.html"
+	},
+	"permissions": [
+		"activeTab",
+		"scripting",
+		"tabs",
+		"storage"
+	],
+	"background": {
+		"service_worker": "background.ts"
+	},
+	"content_scripts": [
+		{
+			"matches": [
+				"*://*.youtube.com/*",
+				"*://youtube.com/*"
+			],
+			"exclude_matches": [
+				"*://*.youtube.com/watch*",
+				"*://youtube.com/watch*"
+			],
+			"js": [
+				"content.js"
+			],
+			"run_at": "document_end"
+		}
+	],
+	"host_permissions": [
+		"*://*.youtube.com/*"
+	],
+	"web_accessible_resources": [
+		{
+			"resources": [
+				"content.js"
+			],
+			"matches": [
+				"*://*.youtube.com/*",
+				"*://youtube.com/*"
+			],
+			"exclude_matches": [
+				"*://*.youtube.com/watch*",
+				"*://youtube.com/watch*"
+			]
+		}
+	],
+	"icons": {
+		"128": "src/assets/logo-128.png",
+		"512": "src/assets/logo-512.png"
+	}
+}
