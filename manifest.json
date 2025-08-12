@@ -2,7 +2,7 @@
 	"manifest_version": 3,
 	"name": "YT Lunchbreak",
 	"description": "Filter your YouTube feed to find the perfect video for your lunch break.",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"action": {
 		"default_icon": "src/assets/logo-disabled-128.png",
 		"default_popup": "index.html"
