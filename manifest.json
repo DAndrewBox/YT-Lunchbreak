@@ -1,6 +1,6 @@
 {
 	"manifest_version": 3,
-	"name": "YT-Lunchbreak",
+	"name": "YT Lunchbreak",
 	"description": "Filter your YouTube feed to find the perfect video for your lunch break.",
 	"version": "1.0.0",
 	"action": {
@@ -10,7 +10,6 @@
 	"permissions": [
 		"activeTab",
 		"scripting",
-		"tabs",
 		"storage"
 	],
 	"background": {

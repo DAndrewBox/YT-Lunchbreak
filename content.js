@@ -55,12 +55,17 @@ const applyFilter = (data) => {
 
 const hideYouTube = (data) => {
 	const allVideosInFeed = document.getElementsByTagName('ytd-rich-item-renderer');
+	const baseQuery = 'div#content > yt-lockup-view-model > div > a';
+	const thumbnailQuery = 'yt-thumbnail-view-model > yt-thumbnail-overlay-badge-view-model:last-child'
+	const badgeQuery = 'yt-thumbnail-badge-view-model > badge-shape'
 
 	for (const video of allVideosInFeed) {
 		// Query for Mixes, apply actions if 'applyOnMixes' is true
 		if (data.applyOnMixes) {
-			const querySelectorMixes = video.querySelector('div#content > yt-lockup-view-model');
-			if (querySelectorMixes) {
+			const querySelectorMixes = video.querySelector(
+				`${baseQuery} > yt-collection-thumbnail-view-model > yt-collections-stack > div > ${thumbnailQuery} > ${badgeQuery} > div.badge-shape-wiz__text`
+			);
+			if (querySelectorMixes?.textContent?.trim() === 'Mix') {
 				applyActionToVideo(true, video, data);
 				continue;
 			}
@@ -69,7 +74,7 @@ const hideYouTube = (data) => {
 		// Query for live videos, apply actions if 'applyOnLiveVideos' is true
 		if (data.applyOnLiveVideos) {
 			const querySelectorLive = video.querySelector(
-				'div#content > ytd-rich-grid-media > div#dismissible > div#details > div#meta > ytd-badge-supported-renderer > div.badge-style-type-live-now-alternate',
+				`${baseQuery} > ${thumbnailQuery} > ${badgeQuery}.badge-shape-wiz--thumbnail-live`,
 			);
 			if (querySelectorLive) {
 				applyActionToVideo(true, video, data);
@@ -79,8 +84,11 @@ const hideYouTube = (data) => {
 
 		// Query for selectors
 		const querySelector = video.querySelector(
-			'div#content > ytd-rich-grid-media > div#dismissible > div#thumbnail > ytd-thumbnail > a#thumbnail > div#overlays > ytd-thumbnail-overlay-time-status-renderer > div > badge-shape > div.badge-shape-wiz__text',
-		);
+			`${baseQuery} > ${thumbnailQuery} > ${badgeQuery}:first-child`,
+		)
+			|| video.querySelector(
+				`${baseQuery} > yt-thumbnail-view-model > yt-thumbnail-bottom-overlay-view-model > div > ${badgeQuery}:first-child`
+			);
 		if (!querySelector) continue;
 
 		const timestamp = (querySelector?.textContent ?? '00:00').trim();
